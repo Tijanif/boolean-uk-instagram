@@ -1,5 +1,6 @@
 import { mainHeader, mainWraper } from './root.js';
 import { headerDivWraperEl, creatingMultipleChips } from './header-section.js';
+import { mainSectionPostEl, mainSectionClassFeedEl } from './main-section.js';
 
 /* ------------- MAIN ROOT ------------- */
 const mainRootDiv = document.querySelector('#root');
@@ -16,6 +17,7 @@ getUsers().then(function (users) {
 
 // console.log(mainHeader, mainWraper);
 mainHeader.append(headerDivWraperEl);
+mainWraper.append(mainSectionPostEl, mainSectionClassFeedEl);
 mainRootDiv.append(mainHeader, mainWraper);
 
 console.log(mainRootDiv);
