@@ -12,5 +12,4 @@ mainWraper.setAttribute('class', 'wraper');
 // <main class="wrapper">
 //   <!-- Go to 3-header-section.html -->
 // </main>
-
-export default rootElements;
+export { mainHeader, mainWraper };
