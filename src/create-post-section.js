@@ -1,65 +1,100 @@
-function creatForm() {
-  const createPostSectionForm = document.createElement('form');
-  createPostSectionForm.setAttribute('id', 'create-post-form');
-  createPostSectionForm.setAttribute('autocomplete', 'off');
+import { createPost, stackUlEl } from './feed.js';
+import { selectedUser } from './header-section.js';
 
-  const formH2El = document.createElement('h2');
-  formH2El.innerText = 'Create a post';
+// function creatForm() {
+const createPostSectionForm = document.createElement('form');
+createPostSectionForm.setAttribute('id', 'create-post-form');
+createPostSectionForm.setAttribute('autocomplete', 'off');
 
-  const formLabelForImgEl = document.createElement('label');
-  formLabelForImgEl.innerText = 'Image';
-  formLabelForImgEl.setAttribute('for', 'image');
+const formH2El = document.createElement('h2');
+formH2El.innerText = 'Create a post';
 
-  const formInputForImgEl = document.createElement('input');
-  formInputForImgEl.setAttribute('id', 'image');
-  formInputForImgEl.setAttribute('name', 'image');
-  formInputForImgEl.setAttribute('type', 'text');
+const formLabelForImgEl = document.createElement('label');
+formLabelForImgEl.innerText = 'Image';
+formLabelForImgEl.setAttribute('for', 'image');
 
-  const formLabelForTitleEl = document.createElement('label');
-  formLabelForTitleEl.innerText = 'Title';
+const formInputForImgEl = document.createElement('input');
+formInputForImgEl.setAttribute('id', 'image');
+formInputForImgEl.setAttribute('name', 'image');
+formInputForImgEl.setAttribute('type', 'text');
+formInputForImgEl.setAttribute('required', true);
 
-  const formInputForTitleEl = document.createElement('input');
-  formInputForTitleEl.setAttribute('id', 'title');
-  formInputForTitleEl.setAttribute('name', 'title');
-  formInputForTitleEl.setAttribute('type', 'text');
+const formLabelForTitleEl = document.createElement('label');
+formLabelForTitleEl.innerText = 'Title';
 
-  const formLabelForContentEl = document.createElement('label');
-  formLabelForContentEl.innerText = 'Content';
+const formInputForTitleEl = document.createElement('input');
+formInputForTitleEl.setAttribute('id', 'title');
+formInputForTitleEl.setAttribute('name', 'title');
+formInputForTitleEl.setAttribute('type', 'text');
+formInputForTitleEl.setAttribute('required', true);
 
-  const formContentTextareaEl = document.createElement('textarea');
-  formContentTextareaEl.setAttribute('id', 'content');
-  formContentTextareaEl.setAttribute('name', 'content');
-  formContentTextareaEl.setAttribute('rows', '2');
-  formContentTextareaEl.setAttribute('columns', '3o');
+const formLabelForContentEl = document.createElement('label');
+formLabelForContentEl.innerText = 'Content';
 
-  // div section
+const formContentTextareaEl = document.createElement('textarea');
+formContentTextareaEl.setAttribute('id', 'content');
+formContentTextareaEl.setAttribute('name', 'content');
+formContentTextareaEl.setAttribute('rows', '2');
+formContentTextareaEl.setAttribute('columns', '3o');
+formContentTextareaEl.setAttribute('required', true);
 
-  const formDivSectionEl = document.createElement('div');
-  formDivSectionEl.setAttribute('class', 'action-btns');
+// div section
 
-  const formDivSectionBtnEl = document.createElement('button');
-  formDivSectionBtnEl.setAttribute('id', 'preview-btn');
-  formDivSectionBtnEl.setAttribute('type', 'button');
-  formDivSectionBtnEl.innerText = 'Preview';
+const formDivSectionEl = document.createElement('div');
+formDivSectionEl.setAttribute('class', 'action-btns');
 
-  const formDivSectionBtnSubmitEl = document.createElement('button');
-  formDivSectionBtnSubmitEl.setAttribute('type', 'button');
-  formDivSectionBtnSubmitEl.innerText = 'Post';
+const formDivSectionBtnEl = document.createElement('button');
+formDivSectionBtnEl.setAttribute('id', 'preview-btn');
+formDivSectionBtnEl.setAttribute('type', 'button');
+formDivSectionBtnEl.innerText = 'Preview';
 
-  formDivSectionEl.append(formDivSectionBtnEl, formDivSectionBtnSubmitEl);
-  createPostSectionForm.append(
-    formH2El,
-    formLabelForImgEl,
-    formInputForImgEl,
-    formLabelForTitleEl,
-    formInputForTitleEl,
-    formLabelForContentEl,
-    formContentTextareaEl,
-    formDivSectionEl
-  );
+const formDivSectionBtnSubmitEl = document.createElement('button');
+formDivSectionBtnSubmitEl.setAttribute('type', 'submit');
+formDivSectionBtnSubmitEl.innerText = 'Post';
 
-  return createPostSectionForm;
-}
+formDivSectionEl.append(formDivSectionBtnEl, formDivSectionBtnSubmitEl);
+createPostSectionForm.append(
+  formH2El,
+  formLabelForImgEl,
+  formInputForImgEl,
+  formLabelForTitleEl,
+  formInputForTitleEl,
+  formLabelForContentEl,
+  formContentTextareaEl,
+  formDivSectionEl
+);
 
-const myForm = creatForm();
-export { myForm };
+// return createPostSectionForm;
+// }
+
+// const myForm = creatForm();
+
+createPostSectionForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  const content = {
+    title: formInputForTitleEl.value,
+    content: formContentTextareaEl.value,
+    image: {
+      src: formInputForImgEl.value,
+      alt: '',
+      userId: selectedUser,
+    },
+  };
+
+  fetch('http://localhost:3000/posts', {
+    method: 'POST',
+
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(content),
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      stackUlEl.append(createPost(data));
+    });
+});
+export { createPostSectionForm };

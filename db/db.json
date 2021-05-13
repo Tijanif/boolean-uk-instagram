@@ -49,6 +49,15 @@
       },
       "likes": 0,
       "userId": 2
+    },
+    {
+      "title": "Nice Dog",
+      "content": "Nice doggy ",
+      "image": {
+        "src": "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        "alt": ""
+      },
+      "id": 4
     }
   ],
   "comments": [

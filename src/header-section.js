@@ -1,14 +1,16 @@
 /* ------------- HEADER SECTION HTML JS ------------- */
 const headerDivWraperEl = document.createElement('div');
 headerDivWraperEl.setAttribute('class', 'wrapper');
-
+let selectedUser = null;
 function creatingChip(usersData) {
   const chipActiveDivEl = document.createElement('div');
   chipActiveDivEl.setAttribute('class', 'chip');
   headerDivWraperEl.append(chipActiveDivEl);
 
   chipActiveDivEl.addEventListener('click', function () {
-    chipActiveDivEl.classList.add('active');
+    chipActiveDivEl.classList.toggle('active');
+    selectedUser = usersData.id;
+    console.log(selectedUser);
   });
 
   const avatarSmallImgEl = document.createElement('img');
@@ -42,4 +44,4 @@ function creatingMultipleChips(userData) {
 // getUsers().then(function (users) {
 //   creatingMultipleChips(users);
 // });
-export { headerDivWraperEl, creatingChip, creatingMultipleChips };
+export { headerDivWraperEl, creatingChip, creatingMultipleChips, selectedUser };

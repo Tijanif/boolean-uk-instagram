@@ -134,4 +134,4 @@ function createPost(post) {
 getUsersFromServer();
 getPostsFromServer();
 
-export { stackUlEl };
+export { stackUlEl, createPost };
