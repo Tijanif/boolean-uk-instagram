@@ -35,8 +35,6 @@ function createPost(post) {
   let user = users.find(function (user) {
     return user.id === post.userId;
   });
-  console.log('User', user);
-  console.log('Post', post);
 
   //l1
   const postLiEl = document.createElement('li');
