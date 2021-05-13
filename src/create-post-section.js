@@ -63,18 +63,3 @@ function creatForm() {
 
 const myForm = creatForm();
 export { myForm };
-// <form id='create-post-form' autocomplete='off'>
-//   <h2>Create a post</h2>
-//   <label for='image'>Image</label>
-//   <input id='image' name='image' type='text' />
-//   <label for='title'>Title</label>
-//   <input id='title' name='title' type='text' />
-//   <label for='content'>Content</label>
-//   <textarea id='content' name='content' rows='2' columns='30'></textarea>
-//   <div class='action-btns'>
-//     <button id='preview-btn' type='button'>
-//       Preview
-//     </button>
-//     <button type='submit'>Post</button>
-//   </div>
-// </form>

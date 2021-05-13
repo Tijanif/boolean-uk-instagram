@@ -42,4 +42,4 @@ function creatingMultipleChips(userData) {
 // getUsers().then(function (users) {
 //   creatingMultipleChips(users);
 // });
-export { headerDivWraperEl, creatingMultipleChips };
+export { headerDivWraperEl, creatingChip, creatingMultipleChips };
