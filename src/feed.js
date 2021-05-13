@@ -1,96 +1,139 @@
+let users = [];
+let posts = [];
+function getUsersFromServer() {
+  fetch('http://localhost:3000/users')
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (usersFromServer) {
+      users = usersFromServer;
+    });
+}
+
+function getPostsFromServer() {
+  fetch('http://localhost:3000/posts')
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (postsFromServer) {
+      posts = postsFromServer;
+      createFeed(posts);
+    });
+}
+
+//ul
 const stackUlEl = document.createElement('ul');
 stackUlEl.setAttribute('class', 'stack');
 
-const postLiEl = document.createElement('li');
-postLiEl.setAttribute('class', 'post');
-stackUlEl.append(postLiEl);
+function createFeed(posts) {
+  for (const post of posts) {
+    createPost(post);
+  }
+}
 
-const chipActiveEl = document.createElement('div');
-chipActiveEl.setAttribute('class', 'chip active');
+function createPost(post) {
+  let user = users.find(function (user) {
+    return user.id === post.userId;
+  });
+  console.log('User', user);
+  console.log('Post', post);
 
-const avatarSmallEl = document.createElement('div');
-avatarSmallEl.setAttribute('class', 'avatar-small');
+  //l1
+  const postLiEl = document.createElement('li');
+  postLiEl.setAttribute('class', 'post');
+  stackUlEl.append(postLiEl);
+  //div chip class
+  const chipActiveEl = document.createElement('div');
+  chipActiveEl.setAttribute('class', 'chip active');
+  //avatar
+  const avatarSmallEl = document.createElement('div');
+  avatarSmallEl.setAttribute('class', 'avatar-small');
+  //img
+  const imgEl = document.createElement('img');
+  imgEl.setAttribute('alt', user.username);
+  imgEl.src = user.avatar;
+  avatarSmallEl.append(imgEl);
+  //span
+  const spanEl = document.createElement('span');
+  spanEl.innerText = user.username;
+  chipActiveEl.append(avatarSmallEl, spanEl);
 
-const imgEl = document.createElement('img');
-imgEl.setAttribute('alt', 'Salvador Dali');
-imgEl.src =
-  'https://uploads5.wikiart.org/images/salvador-dali.jpg!Portrait.jpg';
-avatarSmallEl.append(imgEl);
+  for (const post of posts) {
+  }
+  //post-mage
+  const postImgDivEl = document.createElement('div');
+  postImgDivEl.setAttribute('class', 'post--image');
 
-const spanEl = document.createElement('span');
-spanEl.innerText = 'Salvador Dali';
-chipActiveEl.append(avatarSmallEl, spanEl);
+  const postImageEl = document.createElement('img');
+  postImageEl.src = post.image.src;
+  postImgDivEl.append(postImageEl);
 
-const postImgDivEl = document.createElement('div');
-postImgDivEl.setAttribute('class', 'post--image');
+  //post content class
+  const postContentEl = document.createElement('div');
+  postContentEl.setAttribute('class', 'post--content');
 
-const postImageEl = document.createElement('img');
-postImageEl.src =
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3K588mpXWsXuFcE26ZsuTRN2IeFeKCub8hA&amp;usqp=CAU';
-postImgDivEl.append(postImageEl);
+  const contentTitelEl = document.createElement('h2');
+  contentTitelEl.innerText = 'A tree in blossom';
 
-const postContentEl = document.createElement('div');
-postContentEl.setAttribute('class', 'post--content');
+  const contentParagraphEl = document.createElement('p');
+  contentParagraphEl.innerText =
+    'Spring is finally here... I just love the colours.';
 
-const contentTitelEl = document.createElement('h2');
-contentTitelEl.innerText = 'A tree in blossom';
+  postContentEl.append(contentTitelEl, contentParagraphEl);
 
-const contentParagraphEl = document.createElement('p');
-contentParagraphEl.innerText =
-  'Spring is finally here... I just love the colours.';
+  const postCommentsEl = document.createElement('div');
+  postCommentsEl.setAttribute('class', 'post--comments');
 
-postContentEl.append(contentTitelEl, contentParagraphEl);
+  const h3CommentsEl = document.createElement('h3');
+  h3CommentsEl.innerText = 'Comments';
+  postCommentsEl.append(h3CommentsEl);
 
-const postCommentsEl = document.createElement('div');
-postCommentsEl.setAttribute('class', 'post--comments');
+  for (const comment of post.comments) {
+    //comment
+    let user = users.find(function (user) {
+      return user.id === comment.userId;
+    });
+    const postCommentDivEl = document.createElement('div');
+    postCommentDivEl.setAttribute('class', 'post--comment');
 
-const h3CommentsEl = document.createElement('h3');
-h3CommentsEl.innerText = 'Comments';
+    const avatarEl = document.createElement('div');
+    avatarEl.setAttribute('class', 'avatar-small');
 
-const postCommentDivEl = document.createElement('div');
-postCommentDivEl.setAttribute('class', 'post--comment');
+    const commentAvatarImgEl = document.createElement('img');
+    commentAvatarImgEl.src = user.avatar;
+    avatarEl.append(commentAvatarImgEl);
 
-const avatarEl = document.createElement('div');
-avatarEl.setAttribute('class', 'avatar-small');
+    const commentParaEl = document.createElement('p');
+    commentParaEl.innerText = comment.content;
+    postCommentDivEl.append(avatarEl, commentParaEl);
+    postCommentsEl.append(postCommentDivEl);
+    //end
+  }
 
-const commentAvatarImgEl = document.createElement('img');
-commentAvatarImgEl.src =
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3K588mpXWsXuFcE26ZsuTRN2IeFeKCub8hA&amp;usqp=CAU';
-avatarEl.append(commentAvatarImgEl);
+  postLiEl.append(chipActiveEl, postImgDivEl, postContentEl, postCommentsEl);
 
-const commentParaEl = document.createElement('p');
-commentParaEl.innerText = 'What a great photo!!';
+  //form
+  const formEl = document.createElement('form');
+  formEl.setAttribute('id', 'create-comment-form');
+  formEl.setAttribute('autocomplete', 'off');
 
-postCommentDivEl.append(avatarEl, commentParaEl);
+  const commentLabelEl = document.createElement('label');
+  commentLabelEl.setAttribute('for', 'comment');
+  commentLabelEl.innerText = 'Add comment';
 
-// Form
+  const commentInputEl = document.createElement('input');
+  commentInputEl.setAttribute('id', 'comment');
+  commentInputEl.setAttribute('name', 'comment');
+  commentInputEl.setAttribute('type', 'text');
 
-const formEl = document.createElement('form');
-formEl.setAttribute('id', 'create-comment-form');
-formEl.setAttribute('autocomplete', 'off');
+  const submitBtn = document.createElement('button');
+  submitBtn.setAttribute('type', 'submit');
+  submitBtn.innerText = 'Comment';
+  formEl.append(commentLabelEl, commentInputEl, submitBtn);
+  postLiEl.append(formEl);
+}
 
-const commentLabelEl = document.createElement('label');
-commentLabelEl.setAttribute('for', 'comment');
-commentLabelEl.innerText = 'Add comment';
-
-const commentInputEl = document.createElement('input');
-commentInputEl.setAttribute('id', 'comment');
-commentInputEl.setAttribute('name', 'comment');
-commentInputEl.setAttribute('type', 'text');
-
-const submitBtn = document.createElement('button');
-submitBtn.setAttribute('type', 'submit');
-submitBtn.innerText = 'Comment';
-
-formEl.append(commentLabelEl, commentInputEl, submitBtn);
-
-postCommentsEl.append(h3CommentsEl, postCommentDivEl);
-postLiEl.append(
-  chipActiveEl,
-  postImgDivEl,
-  postContentEl,
-  postCommentsEl,
-  formEl
-);
+getUsersFromServer();
+getPostsFromServer();
 
 export { stackUlEl };
