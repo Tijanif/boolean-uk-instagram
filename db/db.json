@@ -49,15 +49,6 @@
       },
       "likes": 0,
       "userId": 2
-    },
-    {
-      "title": "Nice Dog",
-      "content": "Nice doggy ",
-      "image": {
-        "src": "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-        "alt": ""
-      },
-      "id": 4
     }
   ],
   "comments": [
@@ -96,6 +87,24 @@
       "content": "How did you capture that... perfect timing!",
       "userId": 3,
       "postId": 3
+    },
+    {
+      "content": "Hello world",
+      "userId": 1,
+      "postId": 1,
+      "id": 7
+    },
+    {
+      "content": "Tati..",
+      "userId": 3,
+      "postId": 1,
+      "id": 8
+    },
+    {
+      "content": "Twice refresh",
+      "userId": 1,
+      "postId": 1,
+      "id": 9
     }
   ]
 }
